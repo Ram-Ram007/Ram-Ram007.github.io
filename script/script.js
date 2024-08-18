@@ -65,6 +65,15 @@ tabs.forEach(tab => {
     })
 })
 
+/*==================== bug fixed ====================*/
+
+document.querySelectorAll('.qualification_button').forEach(button => {
+    button.addEventListener('click', () => {
+        document.querySelectorAll('.qualification_button').forEach(btn => btn.classList.remove('qualification_active'));
+        button.classList.add('qualification_active');
+    });
+});
+
 
 
 /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
@@ -128,6 +137,42 @@ const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dar
 
 const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
 // We validate if the user previously chose a topic
+
+
+// Window theme-based change
+
+function applyThemeBasedOnSystem() {
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    if (darkModeMediaQuery.matches) {
+        document.body.classList.add('dark-theme');
+    } else {
+        document.body.classList.remove('dark-theme');
+    }
+    
+    updateThemeIcon();
+}
+
+function updateThemeIcon() {
+    const themeIcon = document.getElementById('theme-button');
+
+    if (document.body.classList.contains('dark-theme')) {
+        themeIcon.classList.remove('uil-sun');
+        themeIcon.classList.add('uil-moon');
+    } else {
+        themeIcon.classList.remove('uil-sun');
+        themeIcon.classList.add('uil-moon');
+    }
+}
+
+// Initial setup
+applyThemeBasedOnSystem();
+
+// Listen for changes in the system theme
+const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+darkModeMediaQuery.addEventListener('change', applyThemeBasedOnSystem);
+
+
 
 
 if (selectedTheme) {
